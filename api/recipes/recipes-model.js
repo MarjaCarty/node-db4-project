@@ -5,5 +5,5 @@ module.exports = {
   getRecipeById(id) {},
   getIngredientById(id) {},
   getShoppingList(id) {},
-  getInstruction(id) {},
+  getInstructions(id) {},
 };
