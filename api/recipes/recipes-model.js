@@ -5,10 +5,7 @@ module.exports = {
     return db("recipes");
   },
   getRecipeById(id) {
-    return db("recipes").where({ id });
-  },
-  getIngredientById(id) {
-    db("ingredients").where({ id });
+    return db("recipes").where("recipe_id", id);
   },
   getShoppingList(id) {
     // select r.recipe_name, i.ingredient_name, si.quantity
@@ -21,11 +18,11 @@ module.exports = {
     //   on i.ingredient_id = si.ingredient_id
     // where r.recipe_id = id
 
-    db("recipes as r")
+    return db("recipes as r")
       .join("steps as s", "s.recipe_id", "r.recipe_id")
       .join("steps_ingredients as si", "s.step_id", "si.step_id")
       .join("ingredients as i", "i.ingredient_id", "si.ingredient_id")
-      .select("r.recipe_name, i.ingredient_name, si.quantity")
+      .select("r.recipe_name", "i.ingredient_name", "si.quantity")
       .where("r.recipe_id", id);
   },
   getInstructions(id) {
@@ -36,7 +33,7 @@ module.exports = {
     // where r.recipe_id = 1
     // order by s.step_number
 
-    db("recipes as r")
+    return db("recipes as r")
       .join("steps as s", "r.recipe_id", "s.recipe_id")
       .select("r.recipe_name", "s.step_number", "s.step_text")
       .where("r.recipe_id", id)
